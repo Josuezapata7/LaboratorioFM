@@ -5,6 +5,11 @@
  */
 package Film_Magic;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -293,6 +298,35 @@ public class Mantenimiento_Empleados extends javax.swing.JInternalFrame {
     private void jButton_RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarActionPerformed
         // TODO add your handling code here:
         
+        try        
+        {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/FilmMagic","root","Langas798");
+            PreparedStatement pst = cn.prepareStatement("insert into Empleado values(?,?,?,?,?,?,?,?)");
+            
+            pst.setString(1, txt_Codigo.getText().trim());
+            pst.setString(2, txt_DPI.getText().trim());
+            pst.setString(3, txt_Nombre.getText().trim());
+            pst.setString(4, txt_Apellido.getText().trim());
+            pst.setString(5, txt_Telefono.getText().trim());
+            pst.setString(6, txt_Correo.getText().trim());
+            pst.setString(7, txt_Genero.getText().trim());
+            pst.setString(8, txt_Estado.getText().trim());
+            pst.executeUpdate();
+            
+            txt_Codigo.setText("");
+            txt_Nombre.setText("");
+            txt_Apellido.setText("");
+            txt_Telefono.setText("");
+            txt_Correo.setText("");
+            txt_Genero.setText("");
+            txt_Estado.setText("");
+            txt_DPI.setText("");
+            label_status.setText("Registrado.");
+            
+        }catch (Exception e)
+        {
+            
+        }
     }//GEN-LAST:event_jButton_RegistrarActionPerformed
 
     private void txt_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_BuscarActionPerformed
@@ -302,16 +336,84 @@ public class Mantenimiento_Empleados extends javax.swing.JInternalFrame {
     private void jButton_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ModificarActionPerformed
         // TODO add your handling code here:
         
+                try {
+            String ID = txt_Buscar.getText().trim();
+            
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/FilmMagic", "root", "Langas798");
+            PreparedStatement pst = cn.prepareStatement("update Empleado set Codigo_Empleado = ?,DPI_Empleado = ?, Nombre_Empleado = ?,Apellido_Empleado = ?,Telefono_Empleado = ?,Correo_Empleado = ?,Genero_Empleado =?,Estado_Empleado =? where Codigo_Empleado = " + ID);
+            
+            pst.setString(1, txt_Codigo.getText().trim());
+            pst.setString(2, txt_DPI.getText().trim());
+            pst.setString(3, txt_Nombre.getText().trim());
+            pst.setString(4, txt_Apellido.getText().trim());
+            pst.setString(5, txt_Telefono.getText().trim());
+            pst.setString(6, txt_Correo.getText().trim());
+            pst.setString(7, txt_Genero.getText().trim());
+            pst.setString(8, txt_Estado.getText().trim());
+            pst.executeUpdate();
+            
+            label_status.setText("Modificación exitosa.");
+            
+        } catch (Exception e) 
+        {
+            
+        }
     }//GEN-LAST:event_jButton_ModificarActionPerformed
 
     private void jButton_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BuscarActionPerformed
         // TODO add your handling code here:
         
+        try{
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/FilmMagic", "root", "Langas798");
+            PreparedStatement pst = cn.prepareStatement("select * from Empleado where Codigo_Empleado = ?");
+            pst.setString(1, txt_Buscar.getText().trim());
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if(rs.next())
+            {
+                txt_Codigo.setText(rs.getString("Codigo_Empleado"));
+                txt_DPI.setText(rs.getString("DPI_Empleado"));
+                txt_Nombre.setText(rs.getString("Nombre_Empleado"));
+                txt_Apellido.setText(rs.getString("Apellido_Empleado"));
+                txt_Telefono.setText(rs.getString("Telefono_Empleado"));
+                txt_Correo.setText(rs.getString("Correo_Empleado"));
+                txt_Genero.setText(rs.getString("Genero_Empleado"));
+                txt_Estado.setText(rs.getString("Estado_Empleado"));
+            } else 
+            {
+                JOptionPane.showMessageDialog(null, "Empleado no registrado.");
+            }
+            
+        }catch (Exception e){
+            
+        }
     }//GEN-LAST:event_jButton_BuscarActionPerformed
 
     private void jButton_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EliminarActionPerformed
         // TODO add your handling code here:
         
+        try 
+        {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/FilmMagic", "root", "Langas798");
+            PreparedStatement pst = cn.prepareStatement("delete from Empleado where Codigo_Empleado = ?");
+            
+            pst.setString(1, txt_Buscar.getText().trim());
+            pst.executeUpdate();
+            
+            txt_Codigo.setText("");
+            txt_DPI.setText("");
+            txt_Nombre.setText("");
+            txt_Apellido.setText("");
+            txt_Telefono.setText("");
+            txt_Correo.setText("");
+            txt_Genero.setText("");
+            txt_Estado.setText("");
+            
+            label_status.setText("Registro eliminado.");
+            
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_jButton_EliminarActionPerformed
 
 

@@ -5,6 +5,11 @@
  */
 package Film_Magic;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -187,6 +192,23 @@ public class Mantenimiento_Autor extends javax.swing.JInternalFrame {
     private void jButton_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EliminarActionPerformed
         // TODO add your handling code here:
         
+        try 
+        {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/FilmMagic", "root", "Langas798");
+            PreparedStatement pst = cn.prepareStatement("delete from Autor where Codigo_Autor = ?");
+            
+            pst.setString(1, txt_Buscar.getText().trim());
+            pst.executeUpdate();
+            
+            txt_Codigo.setText("");
+            txt_Nombre.setText("");
+            txt_Apellido.setText("");
+
+            
+            label_status.setText("Registro eliminado.");
+            
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_jButton_EliminarActionPerformed
 
     private void txt_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_BuscarActionPerformed
@@ -196,16 +218,74 @@ public class Mantenimiento_Autor extends javax.swing.JInternalFrame {
     private void jButton_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BuscarActionPerformed
         // TODO add your handling code here:
         
+                    try
+            {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/FilmMagic", "root", "Langas798");
+            PreparedStatement pst = cn.prepareStatement("select * from Autor where Codigo_Autor = ?");
+            pst.setString(1, txt_Buscar.getText().trim());
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if(rs.next())
+            {
+                txt_Codigo.setText(rs.getString("Codigo_Autor"));
+                txt_Nombre.setText(rs.getString("Nombre_Autor"));
+                txt_Apellido.setText(rs.getString("Apellido_Autor"));
+            } else 
+            {
+                JOptionPane.showMessageDialog(null, "Autor no registrado.");
+            }
+            
+        }catch (Exception e){
+            
+        }
     }//GEN-LAST:event_jButton_BuscarActionPerformed
 
     private void jButton_RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarActionPerformed
         // TODO add your handling code here:
         
+                try        
+        {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/FilmMagic","root","Langas798");
+            PreparedStatement pst = cn.prepareStatement("insert into Autor values(?,?,?)");
+            
+            pst.setString(1, txt_Codigo.getText().trim());
+            pst.setString(2, txt_Nombre.getText().trim());
+            pst.setString(3, txt_Apellido.getText().trim());
+            pst.executeUpdate();
+            
+            txt_Codigo.setText("");
+            txt_Nombre.setText("");
+            txt_Apellido.setText("");
+            label_status.setText("Registrado.");
+            
+        }catch (Exception e)
+        {
+            
+        }
     }//GEN-LAST:event_jButton_RegistrarActionPerformed
 
     private void jButton_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ModificarActionPerformed
         // TODO add your handling code here:
         
+                try
+        {
+            String ID = txt_Buscar.getText().trim();
+            
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/FilmMagic", "root", "Langas798");
+            PreparedStatement pst = cn.prepareStatement("update Autor set Codigo_Autor = ?,Nombre_Autor = ?, Apellido_Autor = ? where Codigo_Autor = " + ID);
+            
+            pst.setString(1, txt_Codigo.getText().trim());
+            pst.setString(2, txt_Nombre.getText().trim());
+            pst.setString(3, txt_Apellido.getText().trim());
+            pst.executeUpdate();
+            
+            label_status.setText("Modificación exitosa.");
+            
+        } catch (Exception e) 
+        {
+            
+        }
     }//GEN-LAST:event_jButton_ModificarActionPerformed
 
 
