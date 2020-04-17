@@ -45,4 +45,32 @@ create table Producto
   foreign key(Codigo_Autor) references Autor(Codigo_Autor)
 )Engine= InnoDB, default char set= latin1;
 
-select *from Empleado;
+create table Renta
+(
+  Codigo_Renta int PRIMARY KEY,
+  Fecha_Renta date not null,
+  Fecha_Vencimiento date not null,
+  
+  Codigo_Cliente int,
+  Codigo_Producto int,
+  
+  foreign key(Codigo_Cliente) references Cliente(Codigo_Cliente),
+  foreign key(Codigo_Producto) references Producto(Codigo_Producto)
+)Engine= InnoDB, default char set= latin1;
+
+create table Factura
+(
+  Codigo_Factura int PRIMARY KEY,
+  Fecha date not null,
+  Forma_Pago varchar(1) not null,
+  Total Float not null,
+
+  Codigo_Cliente int,
+  Codigo_Renta int,
+  
+  foreign key(Codigo_Cliente) references Cliente(Codigo_Cliente),
+  foreign key(Codigo_Renta) references Renta(Codigo_Renta)
+)Engine= InnoDB, default char set= latin1;
+
+select *from renta;
+

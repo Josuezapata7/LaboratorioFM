@@ -15,8 +15,10 @@ import javax.swing.JOptionPane;
  *
  * @author Langas
  */
-public class Mantenimiento_Productos extends javax.swing.JInternalFrame {
-
+public class Mantenimiento_Productos extends javax.swing.JInternalFrame 
+{
+    public static float SumaS;
+    public static float Total=0;
     /**
      * Creates new form Mantenimiento_Productos
      */
@@ -222,6 +224,9 @@ public class Mantenimiento_Productos extends javax.swing.JInternalFrame {
             pst.setString(1, txt_Codigo.getText().trim());
             pst.setString(2, txt_Nombre.getText().trim());
             pst.setString(3, txt_Precio.getText().trim());
+            SumaS = Float.parseFloat(txt_Precio.getText());
+            Total = Total + SumaS; 
+   
             pst.setString(4, txt_Tipo.getText().trim());
             pst.setString(5, txt_Existencias.getText().trim());
             pst.setString(6, txt_Codigo_Autor.getText().trim());
